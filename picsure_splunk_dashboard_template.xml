@@ -1,0 +1,70 @@
+<dashboard>
+  <label>ENVIRONMENT</label>
+  <row>
+    <panel>
+      <chart>
+        <title>Logins per hour</title>
+        <search>
+          <query>index=ENVIRONMENT earliest=-24h  "LOGIN __" | timechart span=1h count(_time)</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.axisTitleX.text">Date</option>
+        <option name="charting.axisTitleY.text">Count</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <event>
+        <title>ENVIRONMENT logins in past 24h</title>
+        <search>
+          <query>( index="ENVIRONMENT" ) "LOGIN __"  | table _time,host, USER</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <fields>host, USER, source</fields>
+        <option name="list.drilldown">full</option>
+        <option name="raw.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="table.drilldown">none</option>
+        <option name="type">table</option>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>ENVIRONMENT Data Export Queries</title>
+      <table>
+        <title>ENVIRONMENT queries last 24h</title>
+        <search>
+          <query>( index="ENVIRONMENT" ) "ACCESS_LOG ___"  NOT Target "Query of type"  DATAFRAME | table _time,host, USER,QUERY</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>ENVIRONMENT COUNTS queries</title>
+      <table>
+        <title>ENVIRONMENT COUNTS queries</title>
+        <search>
+          <query>( index="ENVIRONMENT" ) "ACCESS_LOG ___"  NOT Target "Query of type"  COUNT | table _time,host, USER,QUERY</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</dashboard>
