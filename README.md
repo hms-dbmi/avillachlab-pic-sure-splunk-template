@@ -9,8 +9,9 @@ To start with, a PICSURE source type needs to be configured on the splunk server
 
 To correctly parse out the useful fields for reporting, an extract needs to be applied to the soruce type.  When creating a new source type use default values for all fields but the name & description, then on the 'Advanced' tab and add a new setting called 'EXTRACT-USER,QUERY' with the following regular expression to extract the USER and QUERY fields from pic-sure and psama logs:
 
+```
 ^(?:[^ \n]* )+?___(?P<USER>.*?)___(.*?)___(?P<QUERY>.*?)___
-
+```
 
 Then a splunk index will need to be created.  There should be one index per environment (which may contain several hosts).  This index serves to tie the logs from various hosts together and will be the key that the dashboard uses to gather data.  The index name should reflect the environment and stage e.g., 'pl-dev' or 'udn-prod'
 
