@@ -1,13 +1,22 @@
-<dashboard>
-  <label>ENVIRONMENT</label>
+<form>
+  <label>COPDGENE-DEV</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
   <row>
     <panel>
       <chart>
         <title>Logins per hour</title>
         <search>
-          <query>index=ENVIRONMENT earliest=-24h  "LOGIN __" | timechart span=1h count(_time)</query>
-          <earliest>-24h@h</earliest>
-          <latest>now</latest>
+          <query>index=copdgene-dev "LOGIN __" | timechart span=1h count(_time)</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
         </search>
         <option name="charting.axisTitleX.text">Date</option>
         <option name="charting.axisTitleY.text">Count</option>
@@ -21,11 +30,11 @@
   <row>
     <panel>
       <event>
-        <title>ENVIRONMENT logins in past 24h</title>
+        <title>COPDGENE-DEV logins in past 24h</title>
         <search>
-          <query>( index="ENVIRONMENT" ) "LOGIN __"  | table _time,host, USER</query>
-          <earliest>-24h@h</earliest>
-          <latest>now</latest>
+          <query>( index="copdgene-dev" ) "LOGIN __"  | table _time,host, USER</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
         </search>
         <fields>host, USER, source</fields>
         <option name="list.drilldown">full</option>
@@ -38,13 +47,13 @@
   </row>
   <row>
     <panel>
-      <title>ENVIRONMENT Data Export Queries</title>
+      <title>COPDGENE-DEV Data Export Queries</title>
       <table>
-        <title>ENVIRONMENT queries last 24h</title>
+        <title>COPDGENE-DEV queries last 24h</title>
         <search>
-          <query>( index="ENVIRONMENT" ) "ACCESS_LOG ___"  NOT Target "Query of type"  DATAFRAME | table _time,host, USER,QUERY</query>
-          <earliest>-24h@h</earliest>
-          <latest>now</latest>
+          <query>( index="copdgene-dev" ) "ACCESS_LOG ___"  NOT Target "Query of type"  DATAFRAME | table _time, QUERY,USER</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
@@ -53,13 +62,13 @@
   </row>
   <row>
     <panel>
-      <title>ENVIRONMENT COUNTS queries</title>
+      <title>COPDGENE-DEV COUNTS queries</title>
       <table>
-        <title>ENVIRONMENT COUNTS queries</title>
+        <title>COPDGENE-DEV COUNTS queries</title>
         <search>
-          <query>( index="ENVIRONMENT" ) "ACCESS_LOG ___"  NOT Target "Query of type"  COUNT | table _time,host, USER,QUERY</query>
-          <earliest>-24h@h</earliest>
-          <latest>now</latest>
+          <query>( index="copdgene-dev" ) "ACCESS_LOG ___"  NOT Target "Query of type"  COUNT | table _time,QUERY,USER</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
         </search>
         <option name="count">10</option>
         <option name="drilldown">none</option>
@@ -67,4 +76,18 @@
       </table>
     </panel>
   </row>
-</dashboard>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>( index="copdgene-dev" ) \"Target Service\":\"/search/ | table _time,QUERY,USER</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>
