@@ -1,5 +1,5 @@
 <form>
-  <label>COPDGENE-DEV</label>
+  <label>ENVIRONMENT</label>
   <fieldset submitButton="false" autoRun="true">
     <input type="time" token="field1">
       <label></label>
@@ -14,7 +14,7 @@
       <chart>
         <title>Logins per hour</title>
         <search>
-          <query>index=copdgene-dev "LOGIN __" | timechart span=1h count(_time)</query>
+          <query>index=ENVIRONMENT "LOGIN __" | timechart span=1h count(_time)</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -30,9 +30,9 @@
   <row>
     <panel>
       <event>
-        <title>COPDGENE-DEV logins in past 24h</title>
+        <title>ENVIRONMENT logins in past 24h</title>
         <search>
-          <query>( index="copdgene-dev" ) "LOGIN __"  | table _time,host, USER</query>
+          <query>( index="ENVIRONMENT" ) "LOGIN __"  | table _time,host, USER</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -47,11 +47,11 @@
   </row>
   <row>
     <panel>
-      <title>COPDGENE-DEV Data Export Queries</title>
+      <title>ENVIRONMENT Data Export Queries</title>
       <table>
-        <title>COPDGENE-DEV queries last 24h</title>
+        <title>ENVIRONMENT queries last 24h</title>
         <search>
-          <query>( index="copdgene-dev" ) "ACCESS_LOG ___"  NOT Target "Query of type"  DATAFRAME | table _time, QUERY,USER</query>
+          <query>( index="ENVIRONMENT" ) "ACCESS_LOG ___"  NOT Target "Query of type"  DATAFRAME | table _time, QUERY,USER</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -62,11 +62,11 @@
   </row>
   <row>
     <panel>
-      <title>COPDGENE-DEV COUNTS queries</title>
+      <title>ENVIRONMENT COUNTS queries</title>
       <table>
-        <title>COPDGENE-DEV COUNTS queries</title>
+        <title>ENVIRONMENT COUNTS queries</title>
         <search>
-          <query>( index="copdgene-dev" ) "ACCESS_LOG ___"  NOT Target "Query of type"  COUNT | table _time,QUERY,USER</query>
+          <query>( index="ENVIRONMENT" ) "ACCESS_LOG ___"  NOT Target "Query of type"  COUNT | table _time,QUERY,USER</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -80,7 +80,7 @@
     <panel>
       <table>
         <search>
-          <query>( index="copdgene-dev" ) \"Target Service\":\"/search/ | table _time,QUERY,USER</query>
+          <query>( index="ENVIRONMENT" ) \"Target Service\":\"/search/ | table _time,QUERY,USER</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
