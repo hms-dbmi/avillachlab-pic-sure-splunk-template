@@ -1,0 +1,15 @@
+version: "3.3"
+services:
+ splunk:
+   image: splunk/universalforwarder:8.0.1
+   hostname: splunk8-forwarder
+   restart: always
+   env_file:
+       - ${ENV_FILE}
+   volumes:
+       - /var/run/docker.sock:/var/run/docker.sock:ro
+       - /var/log/docker:/docker/log:ro
+       - /var/lib/docker/containers:/host/containers:ro
+       - ./splunk/certs:/opt/splunk/certs:rw
+       - ./splunk/local:/opt/splunkforwarder/etc/system/local:rw
+
