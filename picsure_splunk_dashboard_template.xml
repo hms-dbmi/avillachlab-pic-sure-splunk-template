@@ -14,7 +14,7 @@
       <chart>
         <title>Logins per hour</title>
         <search>
-          <query>index=ENVIRONMENT "LOGIN __" | timechart span=1h count(_time)</query>
+          <query>index=ENVIRONMENT "LOGIN SUCCESS __" OR "LOGIN __" | timechart span=1h count(_time)</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -32,7 +32,7 @@
       <event>
         <title>ENVIRONMENT logins in past 24h</title>
         <search>
-          <query>( index="ENVIRONMENT" ) "LOGIN __"  | table _time,host, USER</query>
+          <query>( index="ENVIRONMENT" ) "LOGIN SUCCESS __" OR "LOGIN __" | table _time,host, USER</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
