@@ -1,5 +1,5 @@
 <form>
-  <label>ENVIRONMENT</label>
+  <label>__ENVIRONMENT__</label>
   <fieldset submitButton="false" autoRun="true">
     <input type="time" token="field1">
       <label></label>
@@ -14,7 +14,7 @@
       <chart>
         <title>Logins per hour</title>
         <search>
-          <query>index=ENVIRONMENT "LOGIN SUCCESS __" OR "LOGIN __" | timechart span=1h count(_time)</query>
+          <query>index=__ENVIRONMENT__ "LOGIN SUCCESS __" OR "LOGIN" | timechart span=1h count(_time)</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -30,9 +30,9 @@
   <row>
     <panel>
       <event>
-        <title>ENVIRONMENT logins in past 24h</title>
+        <title>__ENVIRONMENT__ logins in past 24h</title>
         <search>
-          <query>( index="ENVIRONMENT" ) "LOGIN SUCCESS __" OR "LOGIN __" | table _time,host, USER</query>
+          <query>( index="__ENVIRONMENT__" ) "LOGIN SUCCESS __" OR "LOGIN"  | table _time,host, USER</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -47,26 +47,11 @@
   </row>
   <row>
     <panel>
-      <title>ENVIRONMENT Data Export Queries</title>
+      <title>__ENVIRONMENT__ COUNTS queries</title>
       <table>
-        <title>ENVIRONMENT queries last 24h</title>
+        <title>__ENVIRONMENT__ COUNTS queries</title>
         <search>
-          <query>( index="ENVIRONMENT" ) "ACCESS_LOG ___"  NOT Target "Query of type"  DATAFRAME | table _time, QUERY,USER</query>
-          <earliest>$field1.earliest$</earliest>
-          <latest>$field1.latest$</latest>
-        </search>
-        <option name="drilldown">none</option>
-        <option name="refresh.display">progressbar</option>
-      </table>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <title>ENVIRONMENT COUNTS queries</title>
-      <table>
-        <title>ENVIRONMENT COUNTS queries</title>
-        <search>
-          <query>( index="ENVIRONMENT" ) "ACCESS_LOG ___"  NOT Target "Query of type"  COUNT | table _time,QUERY,USER</query>
+          <query>( index="__ENVIRONMENT__" ) "ACCESS_LOG ___"  NOT Target "Query of type"  COUNT | table _time,QUERY,USER</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -78,9 +63,10 @@
   </row>
   <row>
     <panel>
+      <title>__ENVIRONMENT__ Search Queries</title>
       <table>
         <search>
-          <query>( index="ENVIRONMENT" ) \"Target Service\":\"/search/ | table _time,QUERY,USER</query>
+          <query>( index="__ENVIRONMENT__" ) \"Target Service\":\"/search/  NOT \"\\\\\"  | table _time,QUERY,USER</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
