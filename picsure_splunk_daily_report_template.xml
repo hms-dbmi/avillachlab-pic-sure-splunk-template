@@ -1,11 +1,12 @@
+<!-- Do global replace on "__ENVIRONMENT_NAME__" and "__ENVIRONMENT_INDEX__" then delete this comment -->
 <dashboard>
-  <label>__ENVIRONMENT__ Daily Report</label>
+  <label>__ENVIRONMENT_NAME__ Daily Report</label>
   <row>
     <panel>
       <chart>
-        <title>Logins yesterday</title>
+        <title>__ENVIRONMENT_NAME__ Login Trends from Yesterday</title>
         <search>
-          <query>index=__ENVIRONMENT__ "LOGIN" | timechart span=1h count(_time)</query>
+          <query>( index="__ENVIRONMENT_INDEX__" ) "LOGIN" | timechart span=1h count(_time)</query>
           <earliest>-1d@d</earliest>
           <latest>-0d@d</latest>
         </search>
@@ -20,10 +21,10 @@
   </row>
   <row>
     <panel>
-      <title>__ENVIRONMENT__ logins yesterday</title>
+      <title>__ENVIRONMENT_NAME__ Logins from Yesterday</title>
       <table>
         <search>
-          <query>( index="__ENVIRONMENT__" ) "LOGIN"  | table _time,host, USER</query>
+          <query>( index="__ENVIRONMENT_INDEX__" ) "LOGIN"  | table _time,host, USER</query>
           <earliest>-1d@d</earliest>
           <latest>-0d@d</latest>
         </search>
@@ -33,11 +34,10 @@
   </row>
   <row>
     <panel>
-      <title>__ENVIRONMENT__ COUNTS queries yesterday</title>
+      <title>__ENVIRONMENT_NAME__ COUNTS Queries from Yesterday</title>
       <table>
-        <title>__ENVIRONMENT__ COUNTS queries</title>
         <search>
-          <query>( index="__ENVIRONMENT__" ) "ACCESS_LOG ___"  NOT Target "Query of type"  COUNT | table _time,QUERY,USER</query>
+          <query>( index="__ENVIRONMENT_INDEX__" ) "ACCESS_LOG ___" NOT "{categoryFilters={}, numericFilters={}, requiredFields=[], anyRecordOf=[], variantInfoFilters=[{categoryVariantInfoFilters={}, numericVariantInfoFilters={}}], expectedResultType=COUNT}}" "Query of type COUNT"| table _time,QUERY,USER</query>
           <earliest>-1d@d</earliest>
           <latest>-0d@d</latest>
         </search>
@@ -46,16 +46,13 @@
   </row>
   <row>
     <panel>
-      <title>Search Queries from Yesterday</title>
+      <title>__ENVIRONMENT_NAME__ Search Queries from Yesterday</title>
       <table>
         <search>
-          <query>( index="__ENVIRONMENT__" ) \"Target Service\":\"/search/  NOT \"\\\\\"  | table _time,QUERY,USER</query>
+          <query>( index="__ENVIRONMENT_INDEX__" ) "ACCESS_LOG ___" "Target Service=/search/" "has been granted access to execute query" NOT "query={query=\\" | table _time,QUERY,USER</query>
           <earliest>-1d@d</earliest>
           <latest>-0d@d</latest>
         </search>
-        <option name="count">10</option>
-        <option name="drilldown">none</option>
-        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>

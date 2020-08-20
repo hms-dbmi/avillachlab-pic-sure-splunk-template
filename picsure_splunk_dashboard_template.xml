@@ -1,5 +1,6 @@
+<!-- Do global replace on "__ENVIRONMENT_NAME__" and "__ENVIRONMENT_INDEX__" then delete this comment -->
 <form>
-  <label>__ENVIRONMENT__</label>
+  <label>__ENVIRONMENT_NAME__</label>
   <fieldset submitButton="false" autoRun="true">
     <input type="time" token="field1">
       <label></label>
@@ -12,9 +13,9 @@
   <row>
     <panel>
       <chart>
-        <title>Logins per hour</title>
+        <title>Logins per Hour</title>
         <search>
-          <query>index=__ENVIRONMENT__ "LOGIN SUCCESS __" OR "LOGIN" | timechart span=1h count(_time)</query>
+          <query>( index="__ENVIRONMENT_INDEX__" ) "LOGIN SUCCESS __" OR "LOGIN __" | timechart span=1h count(_time)</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -30,9 +31,9 @@
   <row>
     <panel>
       <event>
-        <title>__ENVIRONMENT__ logins in past 24h</title>
+        <title>Logins Listing</title>
         <search>
-          <query>( index="__ENVIRONMENT__" ) "LOGIN SUCCESS __" OR "LOGIN"  | table _time,host, USER</query>
+          <query>( index="__ENVIRONMENT_INDEX__" ) "LOGIN SUCCESS __" OR "LOGIN __"  | table _time,host, USER</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -47,11 +48,24 @@
   </row>
   <row>
     <panel>
-      <title>__ENVIRONMENT__ COUNTS queries</title>
       <table>
-        <title>__ENVIRONMENT__ COUNTS queries</title>
+        <title>Data Export Queries</title>
         <search>
-          <query>( index="__ENVIRONMENT__" ) "ACCESS_LOG ___"  NOT Target "Query of type"  COUNT | table _time,QUERY,USER</query>
+          <query>( index="__ENVIRONMENT_INDEX__" ) "ACCESS_LOG ___" "Query of type DATAFRAME" | table _time, QUERY,USER</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Data Counts Queries</title>
+        <search>
+          <query>( index="__ENVIRONMENT_INDEX__" ) "ACCESS_LOG ___" NOT "{categoryFilters={}, numericFilters={}, requiredFields=[], anyRecordOf=[], variantInfoFilters=[{categoryVariantInfoFilters={}, numericVariantInfoFilters={}}], expectedResultType=COUNT}}" "Query of type COUNT"| table _time,QUERY,USER</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -63,10 +77,10 @@
   </row>
   <row>
     <panel>
-      <title>__ENVIRONMENT__ Search Queries</title>
       <table>
+        <title>Search Queries</title>
         <search>
-          <query>( index="__ENVIRONMENT__" ) \"Target Service\":\"/search/  NOT \"\\\\\"  | table _time,QUERY,USER</query>
+          <query>( index="__ENVIRONMENT_INDEX__" ) "ACCESS_LOG ___" "Target Service=/search/" "has been granted access to execute query" NOT "query={query=\\" | table _time,QUERY,USER</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
