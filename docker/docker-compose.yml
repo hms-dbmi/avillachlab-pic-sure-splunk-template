@@ -8,7 +8,7 @@ services:
        - ${ENV_FILE}
    volumes:
        - /var/run/docker.sock:/var/run/docker.sock:ro
-       - /var/log/docker:/docker/log:ro
+       - /var/log/wildfly-docker-logs:/docker/log/wildfly:rw
        - /var/lib/docker/containers:/host/containers:ro
        - ./splunk/certs:/opt/splunk/certs:rw
        - ./splunk/local:/opt/splunkforwarder/etc/system/local:rw

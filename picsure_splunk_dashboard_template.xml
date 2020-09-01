@@ -80,7 +80,7 @@
       <table>
         <title>Search Queries</title>
         <search>
-          <query>( index="__ENVIRONMENT_INDEX__" ) "ACCESS_LOG ___" "Target Service=/search/" "has been granted access to execute query" NOT "query={query=\\" | table _time,QUERY,USER</query>
+          <query>( index="__ENVIRONMENT_INDEX__" ) \"Target Service\":\"/search NOT "query\":\"\\\\" | table _time,QUERY,USER</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>

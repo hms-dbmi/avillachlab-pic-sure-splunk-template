@@ -49,7 +49,7 @@
       <title>__ENVIRONMENT_NAME__ Search Queries from Yesterday</title>
       <table>
         <search>
-          <query>( index="__ENVIRONMENT_INDEX__" ) "ACCESS_LOG ___" "Target Service=/search/" "has been granted access to execute query" NOT "query={query=\\" | table _time,QUERY,USER</query>
+          <query>( index="__ENVIRONMENT_INDEX__" ) \"Target Service\":\"/search NOT "query\":\"\\\\" | table _time,QUERY,USER</query>
           <earliest>-1d@d</earliest>
           <latest>-0d@d</latest>
         </search>
