@@ -16,5 +16,5 @@ INSTALLATION DIRECTIONS:
       SPLUNK_SERVER (be sure to use "HOSTNAME:PORT" format)
   5) Use the following command to start the splunk container:
   
-      docker run -d --name splunk -v /var/run/docker.sock:/var/run/docker.sock:ro -v /var/log/wildfly-docker-logs:/docker/log/wildfly:ro -v /var/lib/docker/containers:/host/containers:ro -v /usr/local/docker-config/splunk/avillachlab-pic-sure-splunk-template/docker/splunk/certs:/opt/splunk/certs:rw -v /usr/local/docker-config/splunk/avillachlab-pic-sure-splunk-template/docker/splunk/local:/opt/splunkforwarder/etc/system/local:rw -v /var/log/wildfly-docker-logs:/var/log/wildfly:ro --env-file .env --restart always  splunk/universalforwarder:8.0.1
+      `docker run -d --name splunk -v /var/run/docker.sock:/var/run/docker.sock:ro -v /var/log/wildfly-docker-logs:/docker/log/wildfly:ro -v /var/lib/docker/containers:/host/containers:ro -v /usr/local/docker-config/splunk/avillachlab-pic-sure-splunk-template/docker/splunk/certs:/opt/splunk/certs:rw -v /usr/local/docker-config/splunk/avillachlab-pic-sure-splunk-template/docker/splunk/local:/opt/splunkforwarder/etc/system/local:rw -v /var/log/wildfly-docker-logs:/var/log/wildfly:ro --env-file .env --restart always  splunk/universalforwarder:8.0.1`
 
