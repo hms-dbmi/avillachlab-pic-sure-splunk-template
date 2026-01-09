@@ -1,22 +1,112 @@
-# avillachlab-pic-sure-splunk-template
-Dashboard templates for Splunk 8.0
+# PIC-SURE Splunk Dashboard Templates
 
-To integrate pic-sure logging, a few items must be configured, both in splunk and on the system (host) running the various pic-sure stack applications.  A splunk forwarder needs to be set up on all hosts that should be monitored with Splunk; this process is described in the various repositories for 
+Dashboard templates for Splunk to monitor PIC-SURE application.
 
+## Overview
 
-To start with, a PICSURE source type needs to be configured on the splunk server that will receive the log data.  This source type need only be configured once, as it is shared between all pic-sure applications that use log4j output.
+This repository contains dashboard templates for monitoring the PIC-SURE application using Splunk.
 
+## Prerequisites
 
-To correctly parse out the useful fields for reporting, an extract needs to be applied to the soruce type.  When creating a new source type use default values for all fields but the name & description, then on the 'Advanced' tab and add a new setting called 'EXTRACT-USER,QUERY' with the following regular expression to extract the USER and QUERY fields from pic-sure and psama logs:
+- Splunk Enterprise server 10.0 or later
 
+## Setup Instructions
+
+### Initial: Configure the PICSURE Source Type in Splunk Server - If it does not exist
+
+The source type only needs to be configured once and is shared across all PIC-SURE applications using log4j output.
+
+1. Navigate to **Settings > Source types** in the Splunk server
+2. Click **New Source Type**
+3. Configure the basic settings:
+   - **Name**: `PICSURE`
+   - **Description**: `PIC-SURE application logs`
+   - Leave all other fields at their default values
+4. Switch to the **Advanced** tab
+5. Add a new setting:
+   - **Name**: `EXTRACT-USER,QUERY`
+   - **Value**: 
+     ```regex
+     ^(?:[^ \n]* )+?___(?P<USER>.*?)___(.*?)___(?P<QUERY>.*?)___
+     ```
+6. Save the source type
+
+This regular expression extracts the `USER` and `QUERY` fields from PIC-SURE and PSAMA logs for reporting.
+
+### ON Splunk server: 1. Create Splunk Index
+
+Create one index per environment (each environment may contain multiple hosts).
+
+1. Navigate to **Settings > Indexes**
+2. Click **New Index**
+3. Name the index using the pattern: `{environment}-{stage}`
+   - Examples: `pl-dev`, `udn-prod`, `bdcat-staging`
+4. Configure other settings as needed for your organization
+5. Save the index
+
+**Note**: The index name will be used to tie logs from various hosts together and is required for the dashboard configuration.
+
+### ON PIC_Sure server: 2. Configure the Splunk Forwarder
+
+On each host running PIC-SURE applications:
+
+1. Clone the Docker Splunk Frowarder
+2. Configure the forwarder to monitor PIC-SURE log files
+3. Start the forwarder container
+
+### Optional: Create a Dashboard
+
+#### Prepare the Dashboard Template
+
+The template file contains the placeholder string `__ENVIRONMENT_INDEX__` and `__ENVIRONMENT_Name__` that must be replaced with actual values.
+
+**Option 1: Using sed (Linux/Mac)**
+```bash
+cp picsure_splunk_dashboard_template.xml picsure_splunk_dashboard.xml
+sed -i 's/__ENVIRONMENT_INDEX__/your-index-name/g' picsure_splunk_dashboard.xml
+sed -i 's/__ENVIRONMENT_NAME__/your-env-name/g' picsure_splunk_dashboard_template.xml
 ```
-^(?:[^ \n]* )+?___(?P<USER>.*?)___(.*?)___(?P<QUERY>.*?)___
-```
 
-Then a splunk index will need to be created.  There should be one index per environment (which may contain several hosts).  This index serves to tie the logs from various hosts together and will be the key that the dashboard uses to gather data.  The index name should reflect the environment and stage e.g., 'pl-dev' or 'udn-prod'
+**Option 2: Using a text editor**
+1. Open the template file in your preferred text editor
+2. Use Find & Replace All to replace `__ENVIRONMENT_INDEX__` with your index name and `__ENVIRONMENT_NAME__` with the name
+3. Ensure the replacement is case-sensitive
+4. Save the file
 
-The next step is to prepare the template for use.  The base template file in source control is a generic version, with the string 'ENVIRONMENT' as a placeholder for the index name and the display value for some dashboard titles.  This file should be filtered using either a utility such as sed or a text editor find-and-replace-all function to replace the ENVIROMENT string with the correct case-sensitive name for the splunk index defined above.  Once this is prepared, a new dashboard can be created.
+#### Load template into Splunk server
 
-Under the apps: Search and Reporting, open the 'Dashboards' page.  Use the button in the top right to create a new dashboard.  This brings you to a page showing the dashboard edit controls.  In the top left corner, there is an option to view the 'raw' content.  Click this button to open an XML view of the dashboard, and past in the contents of the configured template file, overwriting any default content that may be present.  Save the dashboard and you are ready to go!
+1. Navigate to **Apps > Search & Reporting**
+2. Click **Dashboards** in the top menu
+3. Click **Create New Dashboard** (top right)
+4. Provide a title and description for your dashboard
+5. Click **Create Dashboard**
+6. In the dashboard editor, click **Source** in the top left corner to view the XML
+7. Delete the default content and paste in your configured template
+8. Click **Save**
 
-Scheduling email delivery for a new dashboard is handled through the 'export' button in the top right area, under 'schedule PDF delivery'.  Fill in the dialog with the appropriate information, and enjoy your regular splunk reports from picsure!
+Your dashboard is now ready to use!
+
+### Optional: Schedule Email Delivery
+
+To receive regular PDF reports of your dashboard:
+
+1. Open your dashboard
+2. Click **Export** in the top right
+3. Select **Schedule PDF Delivery**
+4. Configure the schedule:
+   - Set the frequency (daily, weekly, etc.)
+   - Add recipient email addresses
+   - Customize the email subject and message
+5. Click **Schedule** to save
+
+You'll now receive regular Splunk reports for your PIC-SURE environment!
+
+## Troubleshooting
+
+- **No data appearing**: Verify that the Splunk forwarder is running and configured with the correct source type and index
+- **Missing fields**: Ensure the EXTRACT-USER,QUERY regex is correctly configured in the source type
+- **Dashboard errors**: Confirm that all instances of `__ENVIRONMENT_INDEX__` and `__ENVIRONMENT_Name__` in the template were replaced with your actual index name
+
+## Support
+
+For issues or questions, please contact your Splunk Server administrator.

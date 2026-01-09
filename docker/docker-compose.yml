@@ -1,15 +1,16 @@
-version: "3.3"
+version: '3.3'
 services:
  splunk:
-   image: splunk/universalforwarder:8.0.1
-   hostname: splunk8-forwarder
+   image: splunk/universalforwarder:10.0
+   hostname: splunk-forwarder
    restart: always
-   env_file:
-       - ${ENV_FILE}
+   env_file: .env
+   ports: ['9997:9997']
    volumes:
        - /var/run/docker.sock:/var/run/docker.sock:ro
-       - /var/log/wildfly-docker-logs:/docker/log/wildfly:rw
        - /var/lib/docker/containers:/host/containers:ro
        - ./splunk/certs:/opt/splunk/certs:rw
        - ./splunk/local:/opt/splunkforwarder/etc/system/local:rw
-
+       # Log file mounts
+       - ${DOCKER_CONFIG_DIR}/log/wildfly-docker-logs:/docker/log/wildfly:ro
+       - ${DOCKER_CONFIG_DIR}/log/hpds-logs:/docker/log/hpds:ro
