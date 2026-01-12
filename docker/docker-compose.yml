@@ -3,6 +3,7 @@ services:
  splunk:
    image: splunk/universalforwarder:10.0
    hostname: splunk-forwarder
+   container_name: splunk-forwarder
    restart: always
    env_file: .env
    ports: ['9997:9997']
@@ -14,3 +15,4 @@ services:
        # Log file mounts
        - ${DOCKER_CONFIG_DIR}/log/wildfly-docker-logs:/docker/log/wildfly:ro
        - ${DOCKER_CONFIG_DIR}/log/hpds-logs:/docker/log/hpds:ro
+       - ${DOCKER_CONFIG_DIR}/log/psama-docker-logs:/docker/log/psama:ro
