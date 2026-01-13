@@ -90,7 +90,7 @@ You should see messages indicating the forwarder has started successfully and is
 **Forwarder not sending data:**
 - Verify the Splunk server address and port in `outputs.conf`
 - Check that the Splunk server is reachable: `telnet <splunk-server> 9997`
-- Review forwarder logs: `docker logs splunk`
+- Review forwarder logs: `docker logs splunk-forwarder`
 
 **Permission errors:**
 - Ensure log directories have appropriate read permissions
