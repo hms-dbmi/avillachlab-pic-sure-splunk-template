@@ -14,12 +14,12 @@ This repository contains dashboard templates for monitoring the PIC-SURE applica
 
 ### Initial: Configure the PICSURE Source Type in Splunk Server - If it does not exist
 
-The source type only needs to be configured once and is shared across all PIC-SURE applications using log4j output.
+The source type `picsure_log4j` only needs to be configured once and is shared across all PIC-SURE applications using log4j output.
 
 1. Navigate to **Settings > Source types** in the Splunk server
 2. Click **New Source Type**
 3. Configure the basic settings:
-   - **Name**: `PICSURE`
+   - **Name**: `picsure_log4j`
    - **Description**: `PIC-SURE application logs`
    - Leave all other fields at their default values
 4. Switch to the **Advanced** tab
