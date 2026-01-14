@@ -20,3 +20,4 @@ services:
        - ${DOCKER_CONFIG_DIR}/log/passthru-docker-logs:/docker/log/passthru:ro
        - ${DOCKER_CONFIG_DIR}/log/dictionary-docker-logs:/docker/log/dictionary:ro
        - ${DOCKER_CONFIG_DIR}/log/agg-dict-docker-logs:/docker/log/aggdict:ro
+       - ${DOCKER_CONFIG_DIR}/log/uploader-docker-logs:/docker/log/uploader:ro
