@@ -16,3 +16,7 @@ services:
        - ${DOCKER_CONFIG_DIR}/log/wildfly-docker-logs:/docker/log/wildfly:ro
        - ${DOCKER_CONFIG_DIR}/log/hpds-logs:/docker/log/hpds:ro
        - ${DOCKER_CONFIG_DIR}/log/psama-docker-logs:/docker/log/psama:ro
+       - ${DOCKER_CONFIG_DIR}/log/httpd-docker-logs:/docker/log/httpd:ro
+       - ${DOCKER_CONFIG_DIR}/log/passthru-docker-logs:/docker/log/passthru:ro
+       - ${DOCKER_CONFIG_DIR}/log/dictionary-docker-logs:/docker/log/dictionary:ro
+       - ${DOCKER_CONFIG_DIR}/log/agg-dict-docker-logs:/docker/log/aggdict:ro
